@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Герои России | Расулов Али</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#0a1628 0%,#1a2a4a 100%);color:#eee;padding:20px}
+        .container{max-width:1200px;margin:0 auto}
+        .welcome-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0a1628 0%,#1a2a4a 100%);display:flex;justify-content:center;align-items:center;z-index:1000}
+        .welcome-card{text-align:center;background:rgba(255,255,255,0.1);backdrop-filter:blur(20px);padding:50px;border-radius:50px;border:2px solid #ffd700;animation:pulse 2s infinite}
+        @keyframes pulse{0%{box-shadow:0 0 10px #ffd700}50%{box-shadow:0 0 40px #ffd700}100%{box-shadow:0 0 10px #ffd700}}
+        .welcome-card h1{font-size:3em;color:#ffd700}
+        .author-name{background:#ffd700;color:#0a1628;display:inline-block;padding:10px 30px;border-radius:40px;margin:20px 0;font-weight:bold;font-size:1.2em}
+        .rudn-badge{background:#1a2a4a;color:#ffd700;display:inline-block;padding:8px 25px;border-radius:40px;margin:10px;border:1px solid #ffd700;font-weight:bold}
+        .enter-btn{background:#ffd700;color:#0a1628;border:none;padding:15px 50px;font-size:1.5em;font-weight:bold;border-radius:50px;cursor:pointer;margin-top:30px}
+        .enter-btn:hover{transform:scale(1.1);background:#ffaa00}
+        .main-site{display:none}
+        .main-site.show{display:block}
+        .top-bar{display:flex;justify-content:space-between;align-items:center;background:rgba(255,215,0,0.1);padding:12px 25px;border-radius:50px;margin-bottom:30px}
+        .back-btn{background:transparent;color:#ffd700;border:2px solid #ffd700;padding:8px 20px;border-radius:40px;cursor:pointer;font-weight:bold}
+        .back-btn:hover{background:#ffd700;color:#0a1628}
+        .header{text-align:center;padding:40px 20px;background:rgba(255,215,0,0.1);border-radius:20px;margin-bottom:40px}
+        .header h1{font-size:2.5em;color:#ffd700}
+        .nav{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-bottom:40px}
+        .nav a{background:#2a3a5a;color:#ffd700;padding:10px 25px;border-radius:30px;font-weight:bold;cursor:pointer}
+        .search-box{text-align:center;margin-bottom:30px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+        .search-box input{padding:12px 20px;width:300px;border:none;border-radius:30px;background:#2a3a5a;color:white}
+        .search-box button{padding:12px 25px;background:#ffd700;border:none;border-radius:30px;font-weight:bold;cursor:pointer}
+        .search-results{text-align:center;margin-bottom:20px;color:#ffd700}
+        .heroes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:25px;margin-bottom:40px}
+        .hero-card{background:rgba(255,255,255,0.1);border-radius:20px;padding:20px;border:1px solid rgba(255,215,0,0.3);transition:0.3s}
+        .hero-card:hover{transform:translateY(-5px);border-color:#ffd700}
+        .hero-name{font-size:1.6em;color:#ffd700}
+        .highlight{background-color:#ffd700;color:#0a1628;padding:0 5px;border-radius:5px}
+        .hero-years,.hero-title,.hero-feat{margin:10px 0}
+        .hero-title{color:#ffaa00;font-weight:bold}
+        .hero-quote{font-style:italic;background:rgba(0,0,0,0.3);padding:10px;border-radius:10px}
+        .random-section{text-align:center;margin-bottom:30px}
+        .random-btn{background:#ffd700;color:#0a1628;padding:12px 30px;border-radius:40px;font-weight:bold;cursor:pointer;border:none}
+        .feedback{background:#1a2a4a;border-radius:20px;padding:30px;margin-top:40px}
+        .feedback input,.feedback textarea{width:100%;padding:12px;margin-bottom:15px;border-radius:10px;background:#2a3a5a;color:white;border:none}
+        .feedback button{background:#ffd700;color:#0a1628;padding:12px 30px;border-radius:30px;cursor:pointer;border:none}
+        .footer{text-align:center;padding:30px;margin-top:40px;border-top:1px solid #2a3a5a;color:#888}
+    </style>
+</head>
+<body>
+<div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-card">
+        <h1>👋 ДОБРО ПОЖАЛОВАТЬ!</h1>
+        <p>На сайт, посвящённый</p>
+        <h1 style="font-size:2em">⭐ ГЕРОЯМ РОССИИ ⭐</h1>
+        <div class="author-name">✍️ АВТОР: РАСУЛОВ АЛИ</div>
+        <div class="rudn-badge">🎓 СТУДЕНТ РУДН 🎓</div>
+        <div class="rudn-badge">📚 ГРУППА: НКАбд-06-25</div>
+        <button class="enter-btn" onclick="enterSite()">🚀 ВОЙТИ 🚀</button>
+    </div>
+</div>
+<div class="main-site" id="mainSite">
+    <div class="container">
+        <div class="top-bar"><span>⭐ HEROES OF RUSSIA ⭐</span><button class="back-btn" onclick="goBack()">⬅ НАЗАД</button></div>
+        <div class="header"><h1>⭐ Герои России ⭐</h1><p>✍️ Расулов Али | Студент РУДН | НКАбд-06-25</p></div>
+        <div class="nav"><a onclick="filterHeroes('all')">Все герои</a><a onclick="filterHeroes('war')">Герои войны</a><a onclick="filterHeroes('labor')">Герои труда</a><a onclick="filterHeroes('modern')">Герои нашего времени</a></div>
+        <div class="search-box"><input type="text" id="searchInput" placeholder="Введи имя героя..."><button onclick="searchHero()">🔍 Найти</button><button onclick="resetSearch()">🔄 Сбросить</button></div>
+        <div class="search-results" id="searchResults"></div>
+        <div class="random-section"><button class="random-btn" onclick="randomHero()">🎲 Случайный герой 🎲</button><p id="randomResult" style="margin-top:10px;color:#ffd700"></p></div>
+        <div class="heroes-grid" id="heroesGrid">
+            <div class="hero-card" data-category="war" data-name="Александр Невский"><div class="hero-name">Александр Невский</div><div class="hero-years">1221–1263</div><div class="hero-title">Князь, полководец, святой</div><div class="hero-feat">Невская битва (1240) и Ледовое побоище (1242).</div><div class="hero-quote">«Не в силе Бог, а в правде!»</div></div>
+            <div class="hero-card" data-category="war" data-name="Дмитрий Донской"><div class="hero-name">Дмитрий Донской</div><div class="hero-years">1350–1389</div><div class="hero-title">Князь Московский</div><div class="hero-feat">Куликовская битва (1380).</div><div class="hero-quote">«За землю Русскую!»</div></div>
+            <div class="hero-card" data-category="war" data-name="Михаил Кутузов"><div class="hero-name">Михаил Кутузов</div><div class="hero-years">1745–1813</div><div class="hero-title">Генерал-фельдмаршал</div><div class="hero-feat">Разгромил Наполеона в 1812 году.</div><div class="hero-quote">«С потерей Москвы не потеряна Россия»</div></div>
+            <div class="hero-card" data-category="war" data-name="Георгий Жуков"><div class="hero-name">Георгий Жуков</div><div class="hero-years">1896–1974</div><div class="hero-title">Маршал Победы</div><div class="hero-feat">Взятие Берлина, победа в ВОВ.</div><div class="hero-quote">«Воевать не числом, а умением»</div></div>
+            <div class="hero-card" data-category="labor" data-name="Юрий Гагарин"><div class="hero-name">Юрий Гагарин</div><div class="hero-years">1934–1968</div><div class="hero-title">Первый космонавт</div><div class="hero-feat">12 апреля 1961 года — первый полёт в космос.</div><div class="hero-quote">«Поехали!»</div></div>
+            <div class="hero-card" data-category="labor" data-name="Сергей Королёв"><div class="hero-name">Сергей Королёв</div><div class="hero-years">1907–1966</div><div class="hero-title">Главный конструктор</div><div class="hero-feat">Создатель ракетно-космической техники.</div><div class="hero-quote">«Человек должен уйти в космос»</div></div>
+            <div class="hero-card" data-category="modern" data-name="Александр Прохоренко"><div class="hero-name">Александр Прохоренко</div><div class="hero-years">1990–2016</div><div class="hero-title">Герой РФ (посмертно)</div><div class="hero-feat">Вызвал огонь на себя в Сирии.</div><div class="hero-quote">«За Россию!»</div></div>
+            <div class="hero-card" data-category="modern" data-name="Роман Филиппов"><div class="hero-name">Роман Филиппов</div><div class="hero-years">1984–2018</div><div class="hero-title">Лётчик, Герой РФ</div><div class="hero-feat">Подорвал себя гранатой в окружении.</div><div class="hero-quote">«Это вам за пацанов!»</div></div>
+        </div>
+        <div class="feedback"><h3>📖 Предложи своего героя</h3><input type="text" id="heroName" placeholder="Имя героя"><textarea id="heroStory" rows="3" placeholder="Опиши подвиг..."></textarea><button onclick="suggestHero()">Отправить</button><p id="feedbackMsg" style="margin-top:15px;color:#ffd700"></p></div>
+        <div class="footer"><p>✍️ Расулов Али | Студент РУДН | НКАбд-06-25</p><p>🇷🇺 Слава героям России! 🇷🇺</p></div>
+    </div>
+</div>
+<script>
+    let currentFilter='all',currentSearchTerm='';
+    function enterSite(){document.getElementById('welcomeScreen').style.display='none';document.getElementById('mainSite').classList.add('show');}
+    function goBack(){document.getElementById('mainSite').classList.remove('show');document.getElementById('welcomeScreen').style.display='flex';}
+    function filterHeroes(c){currentFilter=c;applyFilterAndSearch();document.getElementById('searchInput').value='';currentSearchTerm='';document.getElementById('searchResults').innerHTML='';}
+    function searchHero(){currentSearchTerm=document.getElementById('searchInput').value.trim().toLowerCase();applyFilterAndSearch();}
+    function resetSearch(){currentSearchTerm='';document.getElementById('searchInput').value='';applyFilterAndSearch();document.getElementById('searchResults').innerHTML='';}
+    function applyFilterAndSearch(){const cards=document.querySelectorAll('.hero-card');let visible=0;cards.forEach(c=>{let match=(currentFilter==='all'||c.dataset.category===currentFilter);let nameMatch=(currentSearchTerm===''||c.dataset.name.toLowerCase().includes(currentSearchTerm));if(match&&nameMatch){c.style.display='block';visible++;if(currentSearchTerm){let ne=c.querySelector('.hero-name');ne.innerHTML=c.dataset.name.replace(new RegExp(`(${currentSearchTerm})`,'gi'),'<span class="highlight">$1</span>');}else{c.querySelector('.hero-name').innerHTML=c.dataset.name;}}else{c.style.display='none';}});let rd=document.getElementById('searchResults');if(currentSearchTerm){rd.innerHTML=visible===0?'😔 Ничего не найдено':`🔍 Найдено героев: ${visible}`;}else{rd.innerHTML='';}}
+    function randomHero(){const cards=document.querySelectorAll('.hero-card');const visible=Array.from(cards).filter(c=>c.style.display!=='none');const available=visible.length>0?visible:cards;const r=available[Math.floor(Math.random()*available.length)];document.getElementById('randomResult').innerHTML=`🎉 Герой дня: ${r.querySelector('.hero-name').innerText}! 🎉`;r.scrollIntoView({behavior:'smooth',block:'center'});}
+    function suggestHero(){let n=document.getElementById('heroName').value,s=document.getElementById('heroStory').value;if(!n||!s){document.getElementById('feedbackMsg').innerText='Заполни оба поля!';return;}document.getElementById('feedbackMsg').innerHTML=`🙌 Спасибо, ${n}! Герой будет добавлен.`;document.getElementById('heroName').value='';document.getElementById('heroStory').value='';}
+    document.getElementById('searchInput').addEventListener('keypress',function(e){if(e.key==='Enter')searchHero();});
+</script>
+</body>
+</html>
